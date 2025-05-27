@@ -1,0 +1,46 @@
+<%= form_with(model: vinyl, class: "contents") do |form| %>
+  <% if vinyl.errors.any? %>
+    <div id="error_explanation" class="bg-red-50 text-red-500 px-3 py-2 font-medium rounded-md mt-3">
+      <h2><%= pluralize(vinyl.errors.count, "error") %> prohibited this vinyl from being saved:</h2>
+
+      <ul class="list-disc ml-6">
+        <% vinyl.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="my-5">
+    <%= form.label :band %>
+    <%= form.text_field :band, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:band].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:band].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :album %>
+    <%= form.text_field :album, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:album].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:album].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :genre %>
+    <%= form.text_field :genre, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:genre].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:genre].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :lp_qty, "LP amount" %>
+    <%= form.number_field :lp_qty, in: 1..10, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:lp_qty].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:lp_qty].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :track_qty, "Track amount" %>
+    <%= form.number_field :track_qty, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:track_qty].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:track_qty].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :release %>
+    <%= form.number_field :release, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:release].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:release].any?}] %>
+  </div>
+  <div class="my-5">
+    <%= form.label :rate %>
+    <%= form.number_field :rate, in: 1..10, class: ["block shadow-sm rounded-md border px-3 py-2 mt-2 w-full", {"border-gray-400 focus:outline-blue-600": vinyl.errors[:rate].none?, "border-red-400 focus:outline-red-600": vinyl.errors[:rate].any?}] %>
+  </div>
+
+  <div class="inline">
+    <%= form.submit class: "w-full sm:w-auto rounded-md px-3.5 py-2.5 bg-blue-600 hover:bg-blue-500 text-white inline-block font-medium cursor-pointer" %>
+  </div>
+<% end %>
