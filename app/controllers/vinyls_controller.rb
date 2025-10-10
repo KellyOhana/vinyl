@@ -10,8 +10,13 @@ class VinylsController < ApplicationController
       @vinyls = Vinyl.all
     end
 
-    if params[:year].present?
-      @vinyls = @vinyls.where(release: params[:release])
+    if params[:release].present?
+      @vinyls = Vinyl.where(release: params[:release])
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv { send_data @vinyls.to_csv(@vinyls), filename: "vinyls-#{Date.today}.csv", type: "text/csv" }
     end
   end
 
@@ -74,6 +79,6 @@ class VinylsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def vinyl_params
-      params.expect(vinyl: [ :band, :album, :genre, :lp_qty, :track_qty, :release, :rate ])
+      params.expect(vinyl: [ :band, :album, :genre, :lp_qty, :track_qty, :release, :rate, :year ])
     end
 end
