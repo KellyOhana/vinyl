@@ -9,7 +9,7 @@ WORKDIR /rails
 
 # Install base packages and packages needed to build gems
 RUN apt-get update -qq && \
-    apt-get install --no-install-recommends -y build-essential curl git libjemalloc2 libpq-dev libvips postgresql-client && \
+    apt-get install --no-install-recommends -y build-essential curl git libjemalloc2 libpq-dev libvips postgresql-client watchman && \
     rm -rf /var/lib/apt/lists /var/cache/apt/archives
 
 # Set development environment
