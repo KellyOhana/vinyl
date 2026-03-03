@@ -1,24 +1,56 @@
+version: '3.8'
+
 services:
   db:
     image: postgres:16
-    volumes:
-      - ./tmp/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_DB: vynil_development
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
+      POSTGRES_DB: vinyl
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
   web:
     build:
       context: .
       dockerfile: Dockerfile.dev
-    command: bash -c "rm -f tmp/pids/server.pid && ./bin/dev"
+    command: bash -c "rm -f tmp/pids/server.pid && bin/rails db:prepare && bin/rails server -b 0.0.0.0 -p 3000"
     volumes:
-      - .:/rails
+      - .:/app
+      - ./app/assets/builds:/app/assets/builds
+      - /app/vendor/bundle # Evita conflito de gems
+      - /app/bin
     ports:
       - "3000:3000"
     depends_on:
       - db
-    env_file:
-      - .env
     environment:
-      DATABASE_URL: postgresql://postgres:password@db/vynil_development
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: vinyl
+
+  css:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: bundle exec tailwindcss -i ./app/assets/stylesheets/application.css -o ./app/assets/builds/application.css --watch
+    stdin_open: true
+    tty: true
+    volumes:
+      - .:/app
+      - ./app/assets/builds:/app/assets/builds
+      - /app/vendor/bundle # Evita conflito de gems
+      - /app/bin
+    depends_on:
+      - db
+    environment:
+      DATABASE_HOST: db
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: password
+      DATABASE_NAME: vinyl
+
+volumes:
+  db_data:

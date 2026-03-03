@@ -18,17 +18,14 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
 
   <body>
   <nav class="bg-blue-600 text-white py-4 shadow-md">
     <div class="container mx-auto flex justify-between items-center px-4">
-      <a href="/" class="text-2xl font-bold">Vinyls manager</a>
-      <div>
-        <%= link_to "New vinyl", new_vinyl_path, class: "px-4 py-2 hover:underline" %>
-      </div>
+      <a href="/" class="text-2xl font-bold">Vinyls manager!!</a>
     </div>
   </nav>
   <div class="container mx-auto mt-10 max-w-3xl bg-white shadow-md rounded p-6">
